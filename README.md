@@ -1,4 +1,6 @@
 # leetcode
 Solutions for some programming exercises.
 
-See [example](app/src/main/java/RegExMatch.java).
+See [solution](app/src/main/java/MaxLine.java) for the most hard public problem on Leetcode.
+
+See [solution](app/src/main/java/RegExMatch.java) for second most hard public problem on Leetcode.
