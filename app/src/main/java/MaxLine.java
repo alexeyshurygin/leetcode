@@ -1,7 +1,7 @@
 import java.util.*;
 
 /**
- * https://leetcode.com/explore/interview/card/top-interview-questions-hard/123/math/873/
+ * https://leetcode.com/problems/max-points-on-a-line/
  *
  * @author Alexey Shurygin
  */
