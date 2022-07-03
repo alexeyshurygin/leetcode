@@ -15,12 +15,19 @@ public class WildMatch {
     }
 
     public boolean isMatch(String s, String p) {
-        System.out.print(p);
+//        System.out.print(p);
         do {
             p = p.replace("**", "*");
         } while (p.contains("**"));
-        System.out.println(" -> " + p);
-        return tryAdvance(s, p, Kind.START, (char) 0, 0, 0);
+//        System.out.println(" -> " + p);
+        int[] count = new int[p.length()];
+        int sum = 0;
+        for (int i = count.length - 1; i >= 0; i--) {
+            count[i] = sum;
+            if (p.charAt(i) != '*')
+                sum++;
+        }
+        return tryAdvance(s, p, Kind.START, (char) 0, 0, 0, count);
     }
 
     Kind getPatternKind(String p, int ip) {
@@ -36,19 +43,19 @@ public class WildMatch {
         }
     }
 
-    boolean nextPattern(String s, String p, int ip, int is) {
+    boolean nextPattern(String s, String p, int ip, int is, int[] count) {
         final Kind kind = getPatternKind(p, ip);
         switch (kind) {
             case START:
                 throw new RuntimeException("START");
             case END:
-                return tryAdvance(s, p, kind, (char) 0, ip + 1, is);
+                return tryAdvance(s, p, kind, (char) 0, ip + 1, is, count);
             case LETTER:
-                return tryAdvance(s, p, kind, p.charAt(ip), ip + 1, is);
+                return tryAdvance(s, p, kind, p.charAt(ip), ip + 1, is, count);
             case ANY:
-                return tryAdvance(s, p, kind, (char) 0, ip + 1, is);
+                return tryAdvance(s, p, kind, (char) 0, ip + 1, is, count);
             case SEQ:
-                return tryAdvance(s, p, kind, (char) 0, ip + 1, is);
+                return tryAdvance(s, p, kind, (char) 0, ip + 1, is, count);
         }
         throw new RuntimeException("NO");
     }
@@ -56,12 +63,13 @@ public class WildMatch {
     /**
      * Tries one pattern. Returns if that was unsuccessful.
      *
-     * @param kind - previous kind of pattern
-     * @param l    - letter for SEQ/LETTER
-     * @param ip   - current p pointer
-     * @param is   - current s pointer
+     * @param kind  - previous kind of pattern
+     * @param l     - letter for SEQ/LETTER
+     * @param ip    - current p pointer
+     * @param is    - current s pointer
+     * @param count
      */
-    public boolean tryAdvance(String s, String p, Kind kind, char l, int ip, int is) {
+    public boolean tryAdvance(String s, String p, Kind kind, char l, int ip, int is, int[] count) {
         /*
         start - define 1st pattern and go to the cycle.
         letter and any match to 1 symbol, if not - rollback.
@@ -76,83 +84,25 @@ public class WildMatch {
                 kind = getPatternKind(p, ip);
                 if (kind == Kind.END)
                     return s.isEmpty();
-                return nextPattern(s, p, ip, is);
+                return nextPattern(s, p, ip, is, count);
             case END:
                 return is >= s.length();
             case LETTER, ANY:
                 if (is >= s.length() || (kind == Kind.LETTER && s.charAt(is) != l)) return false;
-                return nextPattern(s, p, ip, is + 1);
+                return nextPattern(s, p, ip, is + 1, count);
             case SEQ:
                 if (is >= s.length())
-                    return nextPattern(s, p, ip, is);
-                //inc string
-                boolean result = tryAdvance(s, p, kind, l, ip, is + 1);
-                if (result) {
-                    return result;
-                } else {
+                    return nextPattern(s, p, ip, is, count);
+                for (int i = s.length() - count[ip - 1]; i >= is; i--) {
+                    //inc string
                     //inc pattern
-                    return nextPattern(s, p, ip, is);
+                    if (nextPattern(s, p, ip, i, count)) {
+                        return true;
+                    }
                 }
+                return false;
             default:
                 throw new RuntimeException("NO");
         }
-    }
-
-    record T(String s, String p, boolean r) {
-    }
-
-    public static void main(String[] args) {
-        var sol = new WildMatch();
-        List<T> tests = List.of(new T("", "", true),
-                new T(
-                        "abbabaaabbabbaababbabbbbbabbbabbbabaaaaababababbbabababaabbababaabbbbbbaaaabababbbaabbbbaabbbbababababbaabbaababaabbbababababbbbaaabbbbbabaaaabbababbbbaababaabbababbbbbababbbabaaaaaaaabbbbbaabaaababaaaabb",
-                        "**aa*****ba*a*bb**aa*ab****a*aaaaaa***a*aaaa**bbabb*b*b**aaaaaaaaa*a********ba*bbb***a*ba*bb*bb**a*b*bb", true),
-                new T("aaaabaaaabbbbaabbbaabbaababbabbaaaababaaabbbbbbaabbbabababbaaabaabaaaaaabbaabbbbaababbababaabbbaababbbba",
-                        "*****b*aba***babaa*bbaba***a*aaba*b*aa**a*b**ba***a*a*", true),
-                new T("a", "", false),
-                new T("", "a", false),
-                new T("a", "a", true),
-                new T("abc", "abc", true),
-                new T("aabc", "aabc", true),
-                new T("aabc", "abc", false),
-                new T("abc", "aabc", false),
-                new T("ab", "abc", false),
-                new T("abc", "ab", false),
-                new T("a", "a*", true),
-                new T("a", "*", true),
-                new T("aaa", "a*", true),
-                new T("aaa", "*", true),
-                new T("aaabbb", "*", true),
-                new T("aaabbb", "a**", true),
-                new T("aaabbb", "*b*", true),
-                new T("aaabbb", "a*b*", true),
-                new T("aaabbb", "b*", false),
-                new T("aaabbb", "*a", false),
-                new T("a", "b", false),
-                new T("ab", "a", false),
-                new T("ab", "a*", true),
-                new T("b", "a*", false),
-                new T("a", "a*", true),
-                new T("ab", "a*b", true),
-                new T("aab", "a*b", true),
-                new T("aab", "**b", true),
-                new T("mississippi", "mis*is*ip*?", true),
-                new T("aabcbcbcaccbcaabc", "**a**b*?c**a*", true),
-                new T("a", "*", true),
-                new T("ab", "a*", true),
-                new T("ab", "*b*", true),
-                new T("ab", "*b", true),
-                new T("ab", "*", true),
-                new T("aba", "*b*", true),
-                new T("a", "?", true),
-                new T("ab", "?", false),
-                new T("ab", "a?", true),
-                new T("ab", "?b", true),
-                new T("abcd", "*a*", true),
-                new T("abcd", "*a*?", true),
-                new T("abcd", "*a**", true),
-                new T("abcd", "?*c*", true)
-        );
-        tests.stream().filter(t -> sol.isMatch(t.s, t.p) != t.r).forEach(System.out::println);
     }
 }

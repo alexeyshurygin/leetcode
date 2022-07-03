@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.parallel.ExecutionMode.CONCURRENT;
 /**
  * @author Alexey Shurygin
  */
-@Execution(CONCURRENT)
+//@Execution(CONCURRENT)
 class WildMatchTest {
     private WildMatch i;
 
@@ -264,14 +264,14 @@ class WildMatchTest {
     }
 
     @Test
-    @Disabled
+//    @Disabled
     void isMatch49() {
-        assertEquals(false, i.isMatch("abbabaaabbabbaababbabbbbbabbbabbbabaaaaababababbbabababaabbababaabbbbbbaaaabababbbaabbbbaabbbbababababbaabbaababaabbbababababbbbaaabbbbbabaaaabbababbbbaababaabbababbbbbababbbabaaaaaaaabbbbbaabaaababaaaabb", "**aa*****ba*a*bb**aa*ab****a*aaaaaa***a*aaaa**bbabb*b*b**aaaaaaaaa*a********ba*bbb***a*ba*bb*bb**a*b*bb"));
+        assertEquals(false, i.isMatch("abbabaaabbabbaababbabbbbbabbbabbbabaaaaababababbbabababaabbababaabbbbbbaaaabababbbaabbbbaabbbbababababbaabbaababaabbbababababbbbaaabbbbbabaaaabbababbbbaababaabbababbbbbababbbabaaaaaaaabbbbbaabaaababaaaabb",
+                "**aa*****ba*a*bb**aa*ab****a*aaaaaa***a*aaaa**bbabb*b*b**aaaaaaaaa*a********ba*bbb***a*ba*bb*bb**a*b*bb"));
     }
 
     @Test
     void isMatch50() {
         assertEquals(true, i.isMatch("adceb", "*a*b"));
     }
-
 }
