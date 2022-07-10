@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Alexey Shurygin
  */
-class IsPowerOfTwoTest {
+class IsPowerofTwoTest {
     IsPowerOfTwo inst;
 
     @BeforeEach
