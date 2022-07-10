@@ -12,3 +12,5 @@ Solutions for some programming exercises.
 [Solution](app/src/main/java/RegExMatch.java) for the third most hard public [problem](https://leetcode.com/problems/regular-expression-matching) on Leetcode.
 
 [Solution](app/src/main/java/SmallestInfiniteSet.java) for [Smallest Number in Infinite Set](https://leetcode.com/problems/smallest-number-in-infinite-set/).
+
+[Solution](app/src/main/java/IsPowerofTwo.java) for [Power of Two](https://leetcode.com/problems/power-of-two/).
