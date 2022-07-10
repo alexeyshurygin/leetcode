@@ -7,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Alexey Shurygin
  */
 class IsPowerofTwoTest {
-    IsPowerofTwo inst;
+    IsPowerOfTwo inst;
 
     @BeforeEach
     void setUp() {
-        inst = new IsPowerofTwo();
+        inst = new IsPowerOfTwo();
     }
 
     @Test

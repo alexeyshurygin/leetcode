@@ -3,7 +3,7 @@
  *
  * @author Alexey Shurygin
  */
-public class IsPowerofTwo {
+public class IsPowerOfTwo {
     public boolean isPowerOfTwo(int b) {
         return (b & 0b1) == (b | 0b1)
                 || (b & 0b10) == (b | 0b10)
