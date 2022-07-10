@@ -21,6 +21,7 @@ class IsPowerOfTwoTest {
         assertTrue(inst.isPowerOfTwo(4));
         assertTrue(inst.isPowerOfTwo(8));
         assertTrue(inst.isPowerOfTwo(65536));
+        assertTrue(inst.isPowerOfTwo(1073741824));
         assertFalse(inst.isPowerOfTwo(0));
         assertFalse(inst.isPowerOfTwo(3));
         assertFalse(inst.isPowerOfTwo(10));
