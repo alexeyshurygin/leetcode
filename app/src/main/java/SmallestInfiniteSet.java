@@ -6,13 +6,14 @@ import java.util.*;
  * @author Alexey Shurygin
  */
 public class SmallestInfiniteSet {
-    byte[] ex = new byte[1001];
+    public static final int NBITS = 1001;
+    BitSet ex = new BitSet(NBITS);
 
     public int popSmallest() {
         int i;
-        for (i = 1; i < ex.length; i++) {
-            if (ex[i] == 0) {
-                ex[i] = 1;
+        for (i = 1; i < NBITS; i++) {
+            if (!ex.get(i)) {
+                ex.set(i, true);
                 return i;
             }
         }
@@ -20,6 +21,6 @@ public class SmallestInfiniteSet {
     }
 
     public void addBack(int num) {
-        ex[num] = 0;
+        ex.set(num, false);
     }
 }
