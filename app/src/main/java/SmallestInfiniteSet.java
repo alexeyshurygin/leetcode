@@ -6,25 +6,20 @@ import java.util.*;
  * @author Alexey Shurygin
  */
 public class SmallestInfiniteSet {
-    final SortedSet<Integer> ex = new TreeSet<>();
+    byte[] ex = new byte[1001];
 
     public int popSmallest() {
-        var prev = 0;
-        var it = ex.iterator();
-        while (it.hasNext()) {
-            var v = it.next();
-            if (v - 1 >= prev + 1) {
-                ex.add(prev + 1);
-                return prev + 1;
+        int i;
+        for (i = 1; i < ex.length; i++) {
+            if (ex[i] == 0) {
+                ex[i] = 1;
+                return i;
             }
-            prev = v;
         }
-        prev++;
-        ex.add(prev);
-        return prev;
+        return i;
     }
 
     public void addBack(int num) {
-        ex.remove(num);
+        ex[num] = 0;
     }
 }
