@@ -5,6 +5,8 @@ Solutions for some programming exercises.
 
 [Solution](app/src/main/java/SortedArrayII.java) that beats 100% of other solutions for [Search in Rotated Sorted Array II](https://leetcode.com/problems/search-in-rotated-sorted-array-ii/description/)
 
+[Solution](app/src/main/java/MedianSortedArrays.java) that beats 100% of other solutions for [Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/)
+
 [Solution](app/src/main/java/MaxLine.java) for the most hard public [problem](https://leetcode.com/problems/max-points-on-a-line/) on Leetcode.
 
 [Solution](app/src/main/java/WildMatch.java) for the second most hard public [problem](https://leetcode.com/problems/wildcard-matching/) on Leetcode.
@@ -16,3 +18,4 @@ Solutions for some programming exercises.
 [Solution](app/src/main/java/IsPowerOfTwo.java) for [Power of Two](https://leetcode.com/problems/power-of-two/).
 
 [Solution](app/src/main/java/IsPowerOfFour.java) for [Power of Four](https://leetcode.com/problems/power-of-four/).
+
