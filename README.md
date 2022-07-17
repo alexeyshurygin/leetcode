@@ -7,6 +7,8 @@ Solutions for some programming exercises.
 
 [Solution](app/src/main/java/MedianSortedArrays.java) that beats 100% of other solutions for [Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/)
 
+[Solution](app/src/main/java/Fibonacci.java) that beats 100% of other solutions for [Fibonacci Number](https://leetcode.com/problems/fibonacci-number/)
+
 [Solution](app/src/main/java/MaxAreaOfIsland.java) that beats 100% of other solutions for [Max Area of Island](https://leetcode.com/problems/max-area-of-island/)
 
 [Solution](app/src/main/java/MaxLine.java) for the most hard public [problem](https://leetcode.com/problems/max-points-on-a-line/) on Leetcode.
