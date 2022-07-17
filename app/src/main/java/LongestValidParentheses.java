@@ -6,7 +6,7 @@ import java.util.Deque;
  *
  * @author Alexey Shurygin
  */
-public class Solution {
+public class LongestValidParentheses {
     record K(char c, int depth, int length) {
     }
 

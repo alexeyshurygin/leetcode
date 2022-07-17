@@ -6,12 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Alexey Shurygin
  */
-class SolutionTest {
-    Solution i;
+class LongestValidParenthesesTest {
+    LongestValidParentheses i;
 
     @BeforeEach
     void setUp() {
-        i = new Solution();
+        i = new LongestValidParentheses();
     }
 
     @Test
