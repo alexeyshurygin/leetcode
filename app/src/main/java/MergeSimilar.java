@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.TreeMap;
 import java.util.function.Consumer;
 
 /**
@@ -8,20 +11,14 @@ import java.util.function.Consumer;
  */
 public class MergeSimilar {
     public List<List<Integer>> mergeSimilarItems(int[][] i1, int[][] i2) {
-        SortedMap<Integer, Integer> m = new TreeMap<>();
+        var m = new TreeMap<Integer, Integer>();
         Consumer<int[]> action = x -> {
-            int k = x[0];
-            m.put(k, m.getOrDefault(k, 0) + x[1]);
+            m.merge(x[0], x[1], Integer::sum);
         };
         Arrays.stream(i1).forEach(action);
         Arrays.stream(i2).forEach(action);
-        List<List<Integer>> r = new ArrayList<>();
-        m.forEach((k, v) -> {
-            ArrayList<Integer> a = new ArrayList<>();
-            a.add(k);
-            a.add(v);
-            r.add(a);
-        });
+        var r = new ArrayList<List<Integer>>();
+        m.forEach((k, v) -> r.add(List.of(k, v)));
         return r;
     }
 }
