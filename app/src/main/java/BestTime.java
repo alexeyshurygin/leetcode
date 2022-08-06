@@ -6,7 +6,7 @@ import java.util.Map;
  *
  * @author Alexey Shurygin
  */
-class Solution {
+class BestTime {
     public int maxProfit(int k, int[] p) {
         results.clear();
         hit = 0;
@@ -31,12 +31,17 @@ class Solution {
          */
         if (k <= 0 || p.length - start < 2)
             return 0;
-        int max = 0;
-        for (int s = p.length - 1; s >= start + 1; s--) {
-            int stepProfit = 0;
-            for (int b = start; b < s; b++) {
-                stepProfit = Math.max(stepProfit, p[s] - p[b]);
+        int stepProfit = Math.max(p[start + 1] - p[start], 0);
+        int max = stepProfit;
+        int maxS = stepProfit > 0 ? start + 1 : -1;
+        for (int s = start + 2; s < p.length; s++) {
+            int temp = stepProfit;
+            if (maxS >= 0) {
+                stepProfit += Math.max(p[s] - p[maxS], 0);
             }
+            stepProfit = Math.max(stepProfit, p[s] - p[s - 1]);
+            if (stepProfit > temp)
+                maxS = s;
             int newS = s + 1;
             int newK = Math.min(Math.max(0, k - 1), (p.length - newS) / 2);
             if (newK >= 0 && p.length - newS >= 2) {
