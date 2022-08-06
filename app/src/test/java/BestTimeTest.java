@@ -6,23 +6,28 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Alexey Shurygin
  */
-class SolutionTest {
-    Solution i;
+class BestTimeTest {
+    BestTime i;
 
     @BeforeEach
     void setUp() {
-        i = new Solution();
+        i = new BestTime();
     }
 
     @Test
     void test0() {
         assertEquals(0, i.maxProfit(0, new int[]{}));
         assertEquals(0, i.maxProfit(10, new int[]{}));
+        assertEquals(1, i.maxProfit(1, new int[]{1, 2}));
+        assertEquals(6, i.maxProfit(1, new int[]{1, 2, 3, 4, 5, 6, 7}));
         assertEquals(0, i.maxProfit(0, new int[]{1, 2, 3}));
         assertEquals(2, i.maxProfit(1, new int[]{1, 2, 3}));
         assertEquals(2, i.maxProfit(2, new int[]{2, 4, 1}));
         assertEquals(7, i.maxProfit(2, new int[]{3, 2, 6, 5, 0, 3}));
         assertEquals(3, i.maxProfit(2, new int[]{1, 2, 4}));
+        assertEquals(8, i.maxProfit(2, new int[]{1, 4, 2, 7}));
+        assertEquals(15, i.maxProfit(2, new int[]{
+                3, 4, 6, 0, 3, 7, 5, 8, 2, 9, 1, 6, 6, 2}));
         assertEquals(482, i.maxProfit(11, new int[]{
                 48, 12, 60, 93, 97, 42, 25, 64, 17, 56, 85, 93, 9, 48, 52, 42, 58, 85, 81, 84, 69, 36, 1, 54, 23, 15, 72, 15, 11, 94
         }));
