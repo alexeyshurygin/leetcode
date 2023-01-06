@@ -1,0 +1,48 @@
+/**
+ * @author Alexey Shurygin
+ */
+public class StrongPasswordChecker {
+    private static int getReplaceNum(String p) {
+        int r = 0;
+        long l = p.chars().filter(Character::isLowerCase).count();
+        long u = p.chars().filter(Character::isUpperCase).count();
+        long d = p.chars().filter(Character::isDigit).count();
+        char prev = 0;
+        int cnt = 0;
+        int excessCnt = 0;
+        for (int i = 0; i < p.length(); i++) {
+            char c = p.charAt(i);
+            if (c == prev) {
+                cnt++;
+            } else {
+                excessCnt += cnt / 3;
+                cnt = 1;
+                prev = c;
+            }
+        }
+        excessCnt += cnt / 3;
+        System.out.printf("Password:%s, excessCnt:%d\n", p, excessCnt);
+        if (u < 1) r++;
+        if (l < 1) r++;
+        if (d < 1) r++;
+        r = Math.max(r, excessCnt);
+        return r;
+    }
+
+    public int strongPasswordChecker(String p) {
+        int min = 0;
+        if (p.length() < 6) min = 6 - p.length();
+        if (p.length() > 20) {
+            int minR = Integer.MAX_VALUE;
+            for (int l = 0; l <= p.length() - 20; l++) {
+                String cut = p.substring(l, l + 20);
+                int r = getReplaceNum(cut);
+                minR = Math.min(minR, r);
+            }
+            return p.length() - 20 + minR;
+        }
+        int r = getReplaceNum(p);
+        r = Math.max(r, min);
+        return r;
+    }
+}
