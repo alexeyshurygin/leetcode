@@ -5,9 +5,14 @@
  */
 public class DivideTwoIntegers {
     public int divide(int dividend, int divisor) {
-        long result = (long) dividend / divisor;
-        result = Math.min(Integer.MAX_VALUE, result);
-        result = Math.max(Integer.MIN_VALUE, result);
-        return (int) result;
+        boolean sameSign = dividend >= 0 && divisor >= 0 || dividend < 0 && divisor < 0;
+        long div1 = dividend >= 0 ? dividend : -(long) dividend;
+        long div2 = divisor >= 0 ? divisor : -(long) divisor;
+        long r;
+        for (r = 0; div1 >= div2; div1 -= div2, r++) ;
+        if (!sameSign) r = -r;
+        r = Math.min(Integer.MAX_VALUE, r);
+        r = Math.max(Integer.MIN_VALUE, r);
+        return (int) r;
     }
 }
