@@ -38,6 +38,8 @@ tasks.named('test') {
 test {
 //    systemProperty("junit.jupiter.execution.parallel.mode.default", "concurrent")
 //    systemProperty("junit.jupiter.execution.parallel.enabled", true)
+    maxHeapSize = "160m"
+    enableAssertions(true)
 }
 
 jmh {

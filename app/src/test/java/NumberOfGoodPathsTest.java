@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * @author Alexey Shurygin
@@ -55,11 +54,11 @@ class NumberOfGoodPathsTest {
     private static int[] getVals() {
         return IntStream.concat(Arrays.stream(getVals1()),
                         IntStream.concat(Arrays.stream(getVals2()),
-                        IntStream.concat(Arrays.stream(getVals3()),
-                        IntStream.concat(Arrays.stream(getVals4()),
-                        IntStream.concat(Arrays.stream(getVals5()),
-                        IntStream.concat(Arrays.stream(getVals6()),
-                        Arrays.stream(getVals7())))))))
+                                IntStream.concat(Arrays.stream(getVals3()),
+                                        IntStream.concat(Arrays.stream(getVals4()),
+                                                IntStream.concat(Arrays.stream(getVals5()),
+                                                        IntStream.concat(Arrays.stream(getVals6()),
+                                                                Arrays.stream(getVals7())))))))
                 .toArray();
     }
 
@@ -267,11 +266,13 @@ class NumberOfGoodPathsTest {
         Assertions.assertEquals(1, i.numberOfGoodPaths(new int[]{1}, new int[][]{}));
         Assertions.assertEquals(6, i.numberOfGoodPaths(new int[]{1, 3, 2, 1, 3}, new int[][]{{0, 1}, {0, 2}, {2, 3}, {2, 4}}));
         Assertions.assertEquals(7, i.numberOfGoodPaths(new int[]{1, 1, 2, 2, 3}, new int[][]{{0, 1}, {1, 2}, {2, 3}, {2, 4}}));
+        Assertions.assertEquals(97, i.numberOfGoodPaths(new int[]{310, 379, 428, 414, 484, 120, 496, 263, 365, 431, 269, 103, 173, 3, 266, 186, 296, 430, 31, 197
+                , 76, 414, 142, 351, 140, 479, 198, 479, 445, 169, 371, 452, 304, 426, 62, 202, 93, 199, 368, 165, 495, 217, 73, 34, 201, 432, 380, 366, 218, 357, 351, 2, 429, 104, 449, 336, 237, 54, 106, 393, 199, 255, 468, 87, 24, 435, 188, 419, 92, 76, 386, 272, 327, 210, 255, 112, 54, 254, 131, 373, 72, 389, 430, 340, 57, 457, 387, 145, 107, 409, 35, 373, 427, 53}, new int[][]{{1, 0}, {0, 2}, {0, 3}, {4, 2}, {5, 4}, {6, 0}, {7, 5}, {2, 8}, {5, 9}, {0, 10}, {11, 10}, {11, 12}, {13, 2}, {9, 14}, {10, 15}, {16, 5}, {6, 17}, {11, 18}, {7, 19}, {20, 5}, {21, 3}, {21, 22}, {6, 23}, {6, 24}, {0, 25}, {25, 26}, {15, 27}, {13, 28}, {22, 29}, {18, 30}, {8, 31}, {32, 3}, {14, 33}, {24, 34}, {35, 14}, {36, 14}, {3, 37}, {38, 6}, {32, 39}, {32, 40}, {32, 41}, {42, 9}, {43, 39}, {4, 44}, {42, 45}, {24, 46}, {39, 47}, {47, 48}, {49, 48}, {23, 50}, {18, 51}, {51, 52}, {53, 41}, {4, 54}, {55, 10}, {56, 14}, {20, 57}, {48, 58}, {59, 13}, {25, 60}, {24, 61}, {62, 42}, {63, 53}, {46, 64}, {65, 52}, {66, 53}, {67, 36}, {6, 68}, {69, 12}, {70, 41}, {71, 32}, {23, 72}, {70, 73}, {59, 74}, {39, 75}, {12, 76}, {55, 77}, {78, 57}, {79, 56}, {47, 80}, {81, 67}, {82, 62}, {83, 38}, {84, 42}, {85, 0}, {86, 71}, {58, 87}, {6, 88}, {66, 89}, {90, 4}, {91, 43}, {62, 92}, {93, 49}}));
         Assertions.assertEquals(52, i.numberOfGoodPaths(new int[]{16, 16, 16, 6, 12, 9, 6, 2, 17, 7, 5, 15, 6, 3, 14, 6, 16, 3, 16, 11, 9, 4,
                         15, 16, 2, 12, 7, 7, 9, 7, 3,
                         8, 4, 13, 8, 4},
                 new int[][]{{1, 0}, {2, 0}, {3, 1}, {0, 4}, {5, 1}, {4, 6}, {2, 7}, {8, 3}, {9, 1}, {10, 1}, {11, 2}, {6, 12}, {13, 0},
                         {7, 14}, {15, 11}, {12, 16}, {17, 1}, {11, 18}, {19, 11}, {20, 12}, {21, 0}, {22, 18}, {23, 2}, {24, 2}, {25, 21}, {10, 26}, {27, 25}, {17, 28}, {19, 29}, {5, 30}, {31, 8}, {32, 13}, {20, 33}, {21, 34}, {35, 15}}));
-//        Assertions.assertEquals(7, i.numberOfGoodPaths(getVals(), getEdges()));
+        Assertions.assertEquals(88203, i.numberOfGoodPaths(getVals(), getEdges()));
     }
 }

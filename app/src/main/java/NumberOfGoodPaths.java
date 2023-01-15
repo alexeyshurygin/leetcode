@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * https://leetcode.com/problems/number-of-good-paths/
@@ -10,15 +11,13 @@ public class NumberOfGoodPaths {
     static int calls;
 
     public int numberOfGoodPaths(int[] vals, int[][] edges) {
+        System.out.printf("Mem:%d\n", Runtime.getRuntime().maxMemory());
         Objects.requireNonNull(vals, "vals null");
         Objects.requireNonNull(edges, "edges null");
         int r = vals.length;
         var val2node = new HashMap<Integer, List<Integer>>();
         var edgeMap = new HashMap<Integer, List<Integer>>();
         for (int i = 0; i < vals.length; i++) val2node.computeIfAbsent(vals[i], k -> new ArrayList<>()).add(i);
-//        for (int i = 0; i < vals.length; i++) {
-//            edgeMap.put(i, new ArrayList<>());
-//        }
         for (int[] edge : edges) {
             edgeMap.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
             edgeMap.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
@@ -30,42 +29,43 @@ public class NumberOfGoodPaths {
                 for (int i = 0; i < nodes.size() - 1; i++) {
                     for (int j = i + 1; j < nodes.size(); j++) {
                         Integer start = nodes.get(i);
-                        int maxValue = findPaths(start, nodes.get(j), vals, edgeMap, new HashSet<>(), cache, Integer.MIN_VALUE);
-                        if (maxValue <= vals[start])
+                        int maxVal = findPaths(start, nodes.get(j), vals, edgeMap, cache);
+                        if (maxVal >= 0 && maxVal <= vals[start])
                             r++;
                     }
                 }
-                System.out.printf("Cache hits:%d #calls:%d\n", cacheHit, calls);
+//                System.out.printf("Cache hits:%d, #calls:%d, cache:%d\n", cacheHit, calls, cache.size());
             }
         }
         return r;
     }
 
-    int findPaths(int start, int end, int[] vals, Map<Integer, List<Integer>> edgeMap, Set<Integer> we, HashMap<CacheKey, Integer> cache,
-                  int maxValue) {
+    int findPaths(int start, int end, int[] vals, Map<Integer, List<Integer>> edgeMap, HashMap<CacheKey, Integer> cache) {
         calls++;
-        Integer max = cache.get(new CacheKey(start, end));
-        if (max != null) {
-            cacheHit++;
-            return max;
-        }
-        if (start == end)
-            return Math.max(maxValue, vals[end]);
-        we.add(start);
-        List<Integer> nodes = edgeMap.get(start);
-        if (nodes != null) {
-            //defensive
-            for (int node : nodes) {
-                if (vals[node] <= vals[end] && !we.contains(node)) {
-                    r += findPaths(node, end, vals, edgeMap, we, cache, Math.max(maxValue, vals[node]));
-                }
+        //BFS
+        var q = new LinkedHashMap<Integer, Integer>();
+        var walked = new HashSet<Integer>();
+        q.put(start, vals[start]);
+        while (!q.isEmpty()) {
+            Integer node = q.keySet().iterator().next();
+            final Integer nodeMax = q.remove(node);
+            assert nodeMax >= 0;
+//            cache.putIfAbsent(new CacheKey(start, node), nodeMax);
+            if (end == node)
+                return nodeMax;
+            Integer restVal = cache.get(new CacheKey(node, end));
+            if (restVal != null) {
+                cacheHit++;
+                int val = restVal < 0 ? restVal : Math.max(nodeMax, restVal);
+                cache.putIfAbsent(new CacheKey(start, end), val);
+                return val;
             }
+            walked.add(node);
+            //defensive
+            edgeMap.getOrDefault(node, List.of()).stream().filter(Predicate.not(walked::contains)).forEach(n -> q.put(n, Math.max(nodeMax, vals[n])));
         }
-        we.remove(start);
-        if (cache.containsKey(new CacheKey(start, end)))
-            throw new AssertionError("Wrong cache state");
-        cache.put(new CacheKey(start, end), r);
-        return r;
+        cache.putIfAbsent(new CacheKey(start, end), -1);
+        return -1;
     }
 
     record CacheKey(int start, int end) {
@@ -77,6 +77,7 @@ public class NumberOfGoodPaths {
                 this.start = end;
                 this.end = start;
             }
+            assert this.start <= this.end;
         }
     }
 }
