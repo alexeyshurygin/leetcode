@@ -30,3 +30,5 @@ Solutions for some programming exercises.
 [Solution](app/src/main/java/DivideTwoIntegers.java) for [Divide Two Integers](https://leetcode.com/problems/divide-two-integers).
 
 [Solution](app/src/main/java/LexicographicallySmallestEquivalentString.java) for [Lexicographically Smallest Equivalent String](https://leetcode.com/problems/lexicographically-smallest-equivalent-string).
+
+[Solution](app/src/main/java/NumberOfGoodPaths.java) for [Number of Good Paths](https://leetcode.com/problems/number-of-good-paths/).
