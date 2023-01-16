@@ -28,7 +28,7 @@ public class NumberOfGoodPaths {
                 for (int i = 0; i < nodes.size() - 1; i++) {
                     for (int j = i + 1; j < nodes.size(); j++) {
                         Integer start = nodes.get(i);
-                        int maxVal = findPaths(start, nodes.get(j), vals, edgeMap, vals[start]);
+                        int maxVal = findPaths(start, nodes.get(j), vals, edgeMap);
                         if (maxVal >= 0 && maxVal <= vals[start]) {
                             r++;
                             System.out.printf("Calls:%d, iterations:%d\n", calls, iters);
@@ -40,11 +40,11 @@ public class NumberOfGoodPaths {
         return r;
     }
 
-    int findPaths(int start, int end, int[] vals, Map<Integer, List<Integer>> edgeMap, int max) {
+    int findPaths(int start, int end, int[] vals, Map<Integer, List<Integer>> edgeMap) {
         calls++;
         //BFS
         var q = new LinkedHashMap<Integer, Integer>();
-        var walked = new LinkedHashSet<Integer>();
+        var walked = new HashSet<Integer>();
         q.put(start, vals[start]);
         walked.add(start);
         while (!q.isEmpty()) {
@@ -55,16 +55,11 @@ public class NumberOfGoodPaths {
             assert walked.contains(node);
             if (end == node)
                 return nodeMax;
-//            if (nodeMax > max) {
-//                walked.addAll(edgeMap.getOrDefault(node, List.of()));
-//                continue;
-//            }
             //defensive
             edgeMap.getOrDefault(node, List.of()).stream().filter(Predicate.not(walked::contains)).forEach(n -> {
                 q.put(n, Math.max(nodeMax, vals[n]));
                 walked.add(n);
             });
-//            .filter(n -> vals[n] <= max)
         }
         return -1;
     }
