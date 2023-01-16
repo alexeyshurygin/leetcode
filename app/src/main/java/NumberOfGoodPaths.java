@@ -85,7 +85,7 @@ public class NumberOfGoodPaths {
     record K(int n, int valMax) implements Comparable<K> {
         @Override
         public int compareTo(K o) {
-            return Integer.compare(n, o.n);
+            return Integer.compare(valMax, o.valMax);
         }
     }
 }
