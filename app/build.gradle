@@ -22,7 +22,8 @@ dependencies {
     jmh 'org.openjdk.jmh:jmh-core:1.35'
     jmh 'org.openjdk.jmh:jmh-generator-annprocess:1.35'
     // Use JUnit Jupiter for testing.
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
 }
 
 application {
