@@ -43,24 +43,47 @@ public class NumberOfGoodPaths {
     int findPaths(int start, int end, int[] vals, Map<Integer, List<Integer>> edgeMap) {
         calls++;
         //BFS
-        var q = new LinkedHashMap<Integer, Integer>();
-        var walked = new HashSet<Integer>();
-        q.put(start, vals[start]);
-        walked.add(start);
-        while (!q.isEmpty()) {
+        var qs = new LinkedHashSet<Integer>();
+        var qe = new LinkedHashSet<Integer>();
+        var walkedS = new HashMap<Integer, Integer>();
+        var walkedE = new HashMap<Integer, Integer>();
+        qs.add(start);
+        walkedS.put(start, vals[start]);
+        qe.add(end);
+        walkedE.put(end, vals[end]);
+        while (!qs.isEmpty() || !qe.isEmpty()) {
             iters++;
-            Integer node = q.keySet().iterator().next();
-            final Integer nodeMax = q.remove(node);
-            assert nodeMax >= 0;
-            assert walked.contains(node);
-            if (end == node)
-                return nodeMax;
-            //defensive
-            edgeMap.getOrDefault(node, List.of()).stream().filter(Predicate.not(walked::contains)).forEach(n -> {
-                q.put(n, Math.max(nodeMax, vals[n]));
-                walked.add(n);
-            });
+            Integer nodeMax;
+            if (!qs.isEmpty()) {
+                nodeMax = walkQ(qs, walkedS, walkedE, vals, edgeMap);
+                if (nodeMax != null) return nodeMax;
+            }
+            if (!qe.isEmpty()) {
+                nodeMax = walkQ(qe, walkedE, walkedS, vals, edgeMap);
+                if (nodeMax != null) return nodeMax;
+            }
         }
         return -1;
+    }
+
+    Integer walkQ(LinkedHashSet<Integer> qs, HashMap<Integer, Integer> walkedS, HashMap<Integer, Integer> walkedE,
+                  int[] vals, Map<Integer, List<Integer>> edgeMap) {
+        assert !qs.isEmpty();
+        Iterator<Integer> iter = qs.iterator();
+        Integer node = iter.next();
+        iter.remove();
+        assert walkedS.containsKey(node);
+        final Integer nodeSMax = walkedS.get(node);
+        assert nodeSMax >= 0;
+        Integer nodeEMax = walkedE.get(node);
+        if (nodeEMax != null)
+            return Math.max(nodeSMax, nodeEMax);
+        //defensive
+        edgeMap.getOrDefault(node, List.of()).stream().filter(Predicate.not(walkedS::containsKey)).forEach(n -> {
+            int valMax = Math.max(nodeSMax, vals[n]);
+            qs.add(n);
+            walkedS.put(n, valMax);
+        });
+        return null;
     }
 }
