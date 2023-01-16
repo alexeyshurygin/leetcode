@@ -54,21 +54,17 @@ public class NumberOfGoodPaths {
         while (!qs.isEmpty() || !qe.isEmpty()) {
             iters++;
             Integer nodeMax;
-            if (!qs.isEmpty()) {
-                nodeMax = walkQ(qs, walkedS, walkedE, vals, edgeMap);
-                if (nodeMax != null) return nodeMax;
-            }
-            if (!qe.isEmpty()) {
-                nodeMax = walkQ(qe, walkedE, walkedS, vals, edgeMap);
-                if (nodeMax != null) return nodeMax;
-            }
+            nodeMax = walkQ(qs, walkedS, walkedE, vals, edgeMap);
+            if (nodeMax != null) return nodeMax;
+            nodeMax = walkQ(qe, walkedE, walkedS, vals, edgeMap);
+            if (nodeMax != null) return nodeMax;
         }
         return -1;
     }
 
     Integer walkQ(LinkedHashSet<Integer> qs, HashMap<Integer, Integer> walkedS, HashMap<Integer, Integer> walkedE,
                   int[] vals, Map<Integer, List<Integer>> edgeMap) {
-        assert !qs.isEmpty();
+        if (qs.isEmpty()) return null;
         Iterator<Integer> iter = qs.iterator();
         Integer node = iter.next();
         iter.remove();
