@@ -43,14 +43,22 @@ public class NumberOfGoodPaths {
     int findPaths(int start, int end, int[] vals, Map<Integer, List<Integer>> edgeMap) {
         calls++;
         //BFS
-        var qs = new LinkedHashSet<Integer>();
-        var qe = new LinkedHashSet<Integer>();
         var walkedS = new HashMap<Integer, Integer>();
         var walkedE = new HashMap<Integer, Integer>();
-        qs.add(start);
         walkedS.put(start, vals[start]);
-        qe.add(end);
         walkedE.put(end, vals[end]);
+        var qs = new PriorityQueue<Integer>((o1, o2) -> {
+            var v1 = walkedS.get(o1);
+            var v2 = walkedS.get(o2);
+            return Integer.compare(v1, v2);
+        });
+        var qe = new PriorityQueue<Integer>((o1, o2) -> {
+            var v1 = walkedE.get(o1);
+            var v2 = walkedE.get(o2);
+            return Integer.compare(v1, v2);
+        });
+        qs.add(start);
+        qe.add(end);
         while (!qs.isEmpty() || !qe.isEmpty()) {
             iters++;
             Integer nodeMax;
@@ -62,7 +70,7 @@ public class NumberOfGoodPaths {
         return -1;
     }
 
-    Integer walkQ(LinkedHashSet<Integer> qs, HashMap<Integer, Integer> walkedS, HashMap<Integer, Integer> walkedE,
+    Integer walkQ(PriorityQueue<Integer> qs, HashMap<Integer, Integer> walkedS, HashMap<Integer, Integer> walkedE,
                   int[] vals, Map<Integer, List<Integer>> edgeMap) {
         if (qs.isEmpty()) return null;
         Iterator<Integer> iter = qs.iterator();
@@ -77,8 +85,8 @@ public class NumberOfGoodPaths {
         //defensive
         edgeMap.getOrDefault(node, List.of()).stream().filter(Predicate.not(walkedS::containsKey)).forEach(n -> {
             int valMax = Math.max(nodeSMax, vals[n]);
-            qs.add(n);
             walkedS.put(n, valMax);
+            qs.add(n);
         });
         return null;
     }
